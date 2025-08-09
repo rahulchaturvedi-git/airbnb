@@ -1,0 +1,16 @@
+<!--TO SHOW ERROR MESAGES-->
+<% if (errors.length> 0) { %>
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <strong class="font-bold">Error!</strong>
+    <ul class="list-disc list-inside">
+      <% errors.forEach(error=> { %>
+        <li>
+          <%= error %>
+        </li>
+        <% }) %>
+    </ul>
+    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+      <i class="fas fa-times"></i>
+    </span>
+  </div>
+  <% } %>
