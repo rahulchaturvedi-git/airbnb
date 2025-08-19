@@ -3,5 +3,137 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Find your perfect getaway with our curated selection of amazing places to stay, from cozy apartments to luxury villas." />
+    <meta name="keywords" content="vacation rentals, holiday homes, airbnb, accommodation, travel" />
+    <meta name="author" content="Airbnb Clone" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="<%= pageTitle %>" />
+    <meta property="og:description" content="Find your perfect getaway with our curated selection of amazing places to stay." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%= typeof currentUrl !== 'undefined' ? currentUrl : '' %>" />
+    <meta property="og:image" content="/images/og-image.jpg" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<%= pageTitle %>" />
+    <meta name="twitter:description" content="Find your perfect getaway with our curated selection of amazing places to stay." />
+    <meta name="twitter:image" content="/images/og-image.jpg" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+    
     <title><%= pageTitle %></title>
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/output.css" as="style" />
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script" />
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/output.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              'sans': ['Inter', 'system-ui', 'sans-serif'],
+              'display': ['Poppins', 'system-ui', 'sans-serif'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-in-out',
+              'slide-up': 'slideUp 0.5s ease-out',
+              'bounce-gentle': 'bounceGentle 2s infinite',
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              bounceGentle: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-5px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #ef4444;
+        border-radius: 4px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #dc2626;
+      }
+      
+      /* Loading animation */
+      .loading-spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #ef4444;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Focus styles for accessibility */
+      .focus-visible:focus {
+        outline: 2px solid #ef4444;
+        outline-offset: 2px;
+      }
+      
+      /* Image lazy loading placeholder */
+      .image-placeholder {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+      }
+      
+      @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+    </style>

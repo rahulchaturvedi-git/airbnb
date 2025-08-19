@@ -1,6 +1,6 @@
 <%- include('../partials/head') %>
   </head>
-  <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+  <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen font-sans">
     <%- include('../partials/nav') %>
     
     <!-- Property Details -->
@@ -8,10 +8,15 @@
       <div class="container mx-auto px-4">
         <div class="max-w-6xl mx-auto">
           <!-- Breadcrumb -->
-          <nav class="flex mb-8" aria-label="Breadcrumb">
+          <nav class="flex mb-8 animate-fade-in" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
               <li class="inline-flex items-center">
-                <a href="/" class="text-gray-700 hover:text-red-600 transition-colors duration-200">Home</a>
+                <a href="/" class="text-gray-700 hover:text-red-600 transition-colors duration-200 flex items-center">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+                  Home
+                </a>
               </li>
               <li>
                 <div class="flex items-center">
@@ -33,10 +38,45 @@
           </nav>
 
           <!-- Main Content -->
-          <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div class="bg-white rounded-2xl shadow-xl overflow-hidden animate-fade-in">
             <!-- Image Gallery -->
             <div class="relative">
-              <img src="<%= home.photo %>" alt="<%= home.houseName %>" class="w-full h-96 md:h-[500px] object-cover">
+              <div class="relative h-96 md:h-[500px] overflow-hidden">
+                <img src="<%= home.photo %>" alt="<%= home.houseName %>" class="w-full h-full object-cover" id="mainImage">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                
+                <!-- Image Navigation -->
+                <button class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-all duration-200" id="prevImage">
+                  <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                  </svg>
+                </button>
+                <button class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-all duration-200" id="nextImage">
+                  <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <!-- Thumbnail Gallery -->
+              <div class="p-4 bg-gray-50">
+                <div class="flex space-x-2 overflow-x-auto">
+                  <div class="flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden cursor-pointer border-2 border-red-500" onclick="changeImage('<%= home.photo %>')">
+                    <img src="<%= home.photo %>" alt="Main view" class="w-full h-full object-cover">
+                  </div>
+                  <div class="flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden cursor-pointer hover:border-2 hover:border-red-500 transition-all duration-200" onclick="changeImage('/images/house2.png')">
+                    <img src="/images/house2.png" alt="Kitchen view" class="w-full h-full object-cover">
+                  </div>
+                  <div class="flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden cursor-pointer hover:border-2 hover:border-red-500 transition-all duration-200" onclick="changeImage('/images/house3.png')">
+                    <img src="/images/house3.png" alt="Bedroom view" class="w-full h-full object-cover">
+                  </div>
+                  <div class="flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden cursor-pointer hover:border-2 hover:border-red-500 transition-all duration-200" onclick="changeImage('/images/house4.png')">
+                    <img src="/images/house4.png" alt="Bathroom view" class="w-full h-full object-cover">
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Favourite Button -->
               <div class="absolute top-4 right-4">
                 <%- include('../partials/favourite') %>
               </div>
@@ -49,7 +89,7 @@
                 <div class="lg:col-span-2">
                   <div class="flex items-start justify-between mb-6">
                     <div>
-                      <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2"><%= home.houseName %></h1>
+                      <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2 font-display"><%= home.houseName %></h1>
                       <p class="text-gray-600 flex items-center">
                         <svg class="w-5 h-5 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
@@ -80,29 +120,85 @@
                   <div class="mb-8">
                     <h2 class="text-2xl font-bold text-gray-800 mb-4">What this place offers</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div class="flex items-center space-x-3">
+                      <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                         <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                         <span class="text-gray-700">Free WiFi</span>
                       </div>
-                      <div class="flex items-center space-x-3">
+                      <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                         <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                         <span class="text-gray-700">Kitchen</span>
                       </div>
-                      <div class="flex items-center space-x-3">
+                      <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                         <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                         <span class="text-gray-700">Air conditioning</span>
                       </div>
-                      <div class="flex items-center space-x-3">
+                      <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                         <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                         <span class="text-gray-700">Free parking</span>
+                      </div>
+                      <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="text-gray-700">Washing machine</span>
+                      </div>
+                      <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="text-gray-700">Balcony</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Reviews Section -->
+                  <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Guest reviews</h2>
+                    <div class="space-y-4">
+                      <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-2">
+                          <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                              <span class="text-white font-semibold text-sm">S</span>
+                            </div>
+                            <span class="font-semibold text-gray-800">Sarah M.</span>
+                          </div>
+                          <div class="flex items-center">
+                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <span class="ml-1 text-sm text-gray-600">5.0</span>
+                          </div>
+                        </div>
+                        <p class="text-gray-700 text-sm">"Amazing place! The location was perfect and the amenities were exactly as described. Would definitely recommend!"</p>
+                        <p class="text-xs text-gray-500 mt-2">March 2024</p>
+                      </div>
+                      
+                      <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-2">
+                          <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                              <span class="text-white font-semibold text-sm">M</span>
+                            </div>
+                            <span class="font-semibold text-gray-800">Mike R.</span>
+                          </div>
+                          <div class="flex items-center">
+                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <span class="ml-1 text-sm text-gray-600">4.8</span>
+                          </div>
+                        </div>
+                        <p class="text-gray-700 text-sm">"Great value for money. The place was clean and the host was very responsive to our questions."</p>
+                        <p class="text-xs text-gray-500 mt-2">February 2024</p>
                       </div>
                     </div>
                   </div>
@@ -125,21 +221,21 @@
                     </div>
 
                     <!-- Booking Form -->
-                    <form action="/reserve/<%= home._id %>" method="POST" class="space-y-4">
+                    <form action="/reserve/<%= home._id %>" method="POST" class="space-y-4" id="bookingForm">
                       <div class="grid grid-cols-2 gap-4">
                         <div>
                           <label class="block text-sm font-medium text-gray-700 mb-2">Check-in</label>
-                          <input type="date" name="checkIn" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" required>
+                          <input type="date" name="checkIn" id="checkIn" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" required>
                         </div>
                         <div>
                           <label class="block text-sm font-medium text-gray-700 mb-2">Check-out</label>
-                          <input type="date" name="checkOut" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" required>
+                          <input type="date" name="checkOut" id="checkOut" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" required>
                         </div>
                       </div>
                       
                       <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Guests</label>
-                        <select name="guests" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        <select name="guests" id="guests" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
                           <option value="1">1 guest</option>
                           <option value="2">2 guests</option>
                           <option value="3">3 guests</option>
@@ -148,13 +244,39 @@
                         </select>
                       </div>
 
-                      <button type="submit" class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105">
+                      <!-- Price Calculation -->
+                      <div class="border-t border-gray-200 pt-4 space-y-2">
+                        <div class="flex justify-between text-sm">
+                          <span>₹<%= home.price %> × <span id="nights">1</span> night</span>
+                          <span>₹<span id="subtotal"><%= home.price %></span></span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                          <span>Service fee</span>
+                          <span>₹<span id="serviceFee">0</span></span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-2 flex justify-between font-semibold">
+                          <span>Total</span>
+                          <span>₹<span id="total"><%= home.price %></span></span>
+                        </div>
+                      </div>
+
+                      <button type="submit" class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105" id="reserveBtn">
                         Reserve Now
                       </button>
                     </form>
 
                     <div class="mt-4 text-center">
                       <p class="text-sm text-gray-600">You won't be charged yet</p>
+                    </div>
+
+                    <!-- Contact Host -->
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                      <button class="w-full bg-gray-100 text-gray-800 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                        Contact Host
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -164,5 +286,118 @@
         </div>
       </div>
     </section>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const checkIn = document.getElementById('checkIn');
+        const checkOut = document.getElementById('checkOut');
+        const guests = document.getElementById('guests');
+        const nights = document.getElementById('nights');
+        const subtotal = document.getElementById('subtotal');
+        const serviceFee = document.getElementById('serviceFee');
+        const total = document.getElementById('total');
+        const reserveBtn = document.getElementById('reserveBtn');
+        const bookingForm = document.getElementById('bookingForm');
+        
+        const basePrice = <%= home.price %>;
+
+        // Set minimum dates
+        const today = new Date().toISOString().split('T')[0];
+        checkIn.min = today;
+        checkOut.min = today;
+
+        // Update check-out minimum when check-in changes
+        checkIn.addEventListener('change', function() {
+          checkOut.min = this.value;
+          if (checkOut.value && checkOut.value <= this.value) {
+            checkOut.value = '';
+          }
+          calculatePrice();
+        });
+
+        checkOut.addEventListener('change', calculatePrice);
+        guests.addEventListener('change', calculatePrice);
+
+        function calculatePrice() {
+          if (checkIn.value && checkOut.value) {
+            const start = new Date(checkIn.value);
+            const end = new Date(checkOut.value);
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays > 0) {
+              nights.textContent = diffDays;
+              const subtotalAmount = basePrice * diffDays;
+              const serviceFeeAmount = Math.round(subtotalAmount * 0.1); // 10% service fee
+              const totalAmount = subtotalAmount + serviceFeeAmount;
+              
+              subtotal.textContent = subtotalAmount;
+              serviceFee.textContent = serviceFeeAmount;
+              total.textContent = totalAmount;
+            }
+          }
+        }
+
+        // Image gallery functionality
+        let currentImageIndex = 0;
+        const images = ['<%= home.photo %>', '/images/house2.png', '/images/house3.png', '/images/house4.png'];
+        const mainImage = document.getElementById('mainImage');
+        const prevBtn = document.getElementById('prevImage');
+        const nextBtn = document.getElementById('nextImage');
+
+        function changeImage(imageSrc) {
+          mainImage.src = imageSrc;
+          currentImageIndex = images.indexOf(imageSrc);
+        }
+
+        function nextImage() {
+          currentImageIndex = (currentImageIndex + 1) % images.length;
+          mainImage.src = images[currentImageIndex];
+        }
+
+        function prevImage() {
+          currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+          mainImage.src = images[currentImageIndex];
+        }
+
+        if (prevBtn && nextBtn) {
+          prevBtn.addEventListener('click', prevImage);
+          nextBtn.addEventListener('click', nextImage);
+        }
+
+        // Global function for thumbnail clicks
+        window.changeImage = changeImage;
+
+        // Form submission
+        bookingForm.addEventListener('submit', function(e) {
+          if (!checkIn.value || !checkOut.value) {
+            e.preventDefault();
+            alert('Please select check-in and check-out dates');
+            return;
+          }
+
+          const start = new Date(checkIn.value);
+          const end = new Date(checkOut.value);
+          if (end <= start) {
+            e.preventDefault();
+            alert('Check-out date must be after check-in date');
+            return;
+          }
+
+          // Show loading state
+          reserveBtn.disabled = true;
+          reserveBtn.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Processing...
+          `;
+        });
+
+        // Initialize price calculation
+        calculatePrice();
+      });
+    </script>
   </body>
 </html>
